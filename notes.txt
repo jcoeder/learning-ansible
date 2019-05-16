@@ -3,3 +3,8 @@ ansible --list-hosts all
     qfx1
     qfx2
     qfx3
+
+
+Raw Module
+Tell Ansible to run aginsts the group 'all' in the file 'hosts' using the module 'raw' and the arguement to that module 'show system uptime'  Log in with user 'justin' and prompt for the password
+ansible all -i hosts -m raw -a 'cli' 'show system time' -u justin -k
