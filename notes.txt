@@ -1,0 +1,5 @@
+ansible --list-hosts all
+  hosts (3):
+    qfx1
+    qfx2
+    qfx3
