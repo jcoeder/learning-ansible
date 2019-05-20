@@ -8,3 +8,61 @@ ansible --list-hosts all
 Raw Module
 Tell Ansible to run aginsts the group 'all' in the file 'hosts' using the module 'raw' and the arguement to that module 'show system uptime'  Log in with user 'justin' and prompt for the password
 ansible all -i hosts -m raw -a 'cli' 'show system time' -u justin -k
+
+
+
+yum install ansible -y
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+
+Needed for Juniper
+pip install --upgrade setuptools
+pip install ncclient
+pip install junos-eznc --ignore-installed PyYAML
+ansible-galaxy install Juniper.junos
+ansible --connection=local juniper_qfx -i hosts -m junos_facts
+
+Needed for Cumulus
+
+Needed for NXOS
+
+Needed for IOS
+
+Needed for EOS
+
+/etc/ansible/ansible.cfg
+# uncomment this to disable SSH key host checking
+host_key_checking = False
+
+
+/etc/ansible/hosts
+
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+[juniper_qfx]
+qfx1 ansible_user=justin ansible_ssh_pass=Lab12345!
+qfx2 ansible_user=justin ansible_ssh_pass=Lab12345!
+
+[cumulus]
+cumulus1 ansible_user=cumulus ansible_ssh_pass=Lab12345!
+cumulus2 ansible_user=cumulus ansible_ssh_pass=Lab12345!
+
+[cisco_nxos]
+nxos1 ansible_user=justin ansible_ssh_pass=Lab12345!
+nxos2 ansible_user=justin ansible_ssh_pass=Lab12345!
+
+[cisco_ios]
+ios1 ansible_user=justin ansible_ssh_pass=Lab12345!
+ios2 ansible_user=justin ansible_ssh_pass=Lab12345!
+
+[arista]
+eos1 ansible_user=justin ansible_ssh_pass=Lab12345!
+eos2 ansible_user=justin ansible_ssh_pass=Lab12345!
