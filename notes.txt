@@ -48,7 +48,7 @@ host_key_checking = False
 #   - A hostname/ip can be a member of multiple groups
 
 [juniper_qfx]
-qfx1 ansible_user=justin ansible_ssh_pass=Lab12345!
+qfx1 ansible_user=justin ansible_ssh_pass=Lab12345! ansible_connection=local
 qfx2 ansible_user=justin ansible_ssh_pass=Lab12345!
 
 [cumulus]
@@ -66,3 +66,10 @@ ios2 ansible_user=justin ansible_ssh_pass=Lab12345!
 [arista]
 eos1 ansible_user=justin ansible_ssh_pass=Lab12345!
 eos2 ansible_user=justin ansible_ssh_pass=Lab12345!
+
+ansible --list-hosts all
+ansible --list-hosts "*"
+ansible --list-hosts juniper-qfx,cisco-iol
+ansible --list-hosts \!juniper-qfx
+
+
