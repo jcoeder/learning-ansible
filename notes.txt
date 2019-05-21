@@ -1,3 +1,25 @@
+Playbook: The file you create that defines your desired automation process by calling a series of module.  Ansible executes the playbook, calling the modules that implement the taks needed to perform the deisred automation
+
+Module:  A program that accomplishes a specific task, like coping a file, installing software, or rebooting a device
+
+Task:  Within a playbook, a task is a call to execute a module that does a specific job, like copy a file.  Tasks usually include one or more arguements, data that adds detial to what the module should do, such as name of the file to copy, or the IP address of the device to configure.
+
+Play:  Within a playbook, a play is a collection of tasks.  A splaybook will have one or more plays.  If a playbook contains mulitople plays, it is likely that the plays have different requirements.  Example, they may execute on different hosts.
+
+Facts:  As a playbook executes, Ansible learns about the hosts involved.  The learned data are called facts and may be referenece by name in the playbook.
+
+Variable:  Data about a host or group declared by the user.  LIke facts, variables can be referenced by name.  The difference is that variable are declared by the user, not by Ansible.
+
+Role:  A way of organizsing desired behaviro into reusable units.  Roles consist of tasks, variables, and other elements that can be incorporated into mulitple playbooks.
+
+Template:  A file containing some static text, such as device configuration commands, but with some places where Ansible will "fill-in-the-blanks" with data specific to each device, such as the hostname or an IP address.  Templates can be used to generate configuration files that contain device-specific settings, or to format and save facts gathered from devices in a human-friendly format.  Templates are written using the Jinja2 language.
+
+Inventory:  The list of device that Ansible knows abou, possibly with some pre-set vairables about each device, such as the devices management IP address.  Inventory is often stored in a single file named inventory, or in a set of files in a directory called inventory
+
+Groups:  Within the inventory of devices, you can define groups that describe collections of devices you can refer to by name, for example, a group called routers  vs a group called switches.
+
+group_vars and host_vars:  Directories in which you can place files containing variables about groups of hosts.  The file in the group_vars and host_vars directories let you define more variables, or variables containing more complex data.
+
 ansible --list-hosts all
   hosts (3):
     qfx1
