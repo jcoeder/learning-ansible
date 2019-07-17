@@ -95,3 +95,57 @@ ansible --list-hosts juniper-qfx,cisco-iol
 ansible --list-hosts \!juniper-qfx
 
 
+
+
+
+
+---
+- name: IOS Example
+  gather_facts: false
+  hosts: cisco-iol
+
+  roles:
+    - ansible-network.network-engine                            - installed from galaxy - used to parse text return
+
+  tasks:
+    - name: Run Cisco IOS Command 'show version'
+      ios_command:
+        commands:
+          - show version
+      register: out                                             - save output as variable 'out'
+
+    - name: Print output
+      debug:
+        msg: "{{ out.stdout[0] }}"                              - 0th element only (removes outer list)
+
+    - name: Run Cisco IOS Command 'show ip interface brief'
+      ios_command:
+        commands:
+          - show ip interface brief
+      register: out
+
+    - name: Print output
+      debug:
+        msg: "{{ out.stdout_lines[0][2] }}"                     -3rd line of the 0th element
+
+    - name: Parse raw output
+      command_parser:
+        file: "parsers/ios/show_ip_interface_brief.yaml"        - parser configuration file
+        content: "{{ out.stdout[0] }}"                          - content to parse
+
+    - name: Configure Hostname
+      ios_config:
+        lines: hostname {{ inventory_hostname }}
+      tags: config                                              - tags can be used to call only certian tasks
+
+    - name: Configure OSPF
+      ios_config:
+        lines:
+          - no ip address
+          - ip ospf 1 area 0.0.0.0
+        parents: "{{ item }}"                                   - looping over interfaces
+      with_items:                                               - looping over interfaces
+       - interface Ethernet0/0
+       - interface Ethernet0/1
+       - interface Ethernet0/2
+      tags: config                                              - tags can be used to call only certian tasks
