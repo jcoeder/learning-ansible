@@ -27,8 +27,9 @@
 `pip install -r requirements.txt`
 
 Generally...
-`paramiko`
-`netmiko`
-`napalm`
+
+`pip install netmiko`
+
+`pip install napalm`
 
 ---
