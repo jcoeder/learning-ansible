@@ -1,7 +1,7 @@
 # learning-ansible
 ---
-# General Ansible for Networking Environment
-### Install Python3
+## General Ansible for Networking Environment
+#### Install Python3
 `sudo yum install gcc openssl-devel bzip2-devel`
 
 `sudo wget https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tgz`
@@ -14,15 +14,15 @@
 
 `sudo make altinstall`
 
-### Create Python3 virtualenv
+#### Create Python3 virtualenv
 
 `virtualenv -p python3.7 ~/WORKING_DIR/WORKING_DIR-virtualenv`
 
-### Activate virtualenv
+#### Activate virtualenv
 
 `source ~/WORKING_DIR/WORKING_DIR-virtualenv/bin/activate`
 
-### Install requirements
+#### Install requirements
 
 `pip install -r requirements.txt`
 
@@ -30,4 +30,4 @@ Generally...
 `paramiko`
 `netmiko`
 `napalm`
-
+---
