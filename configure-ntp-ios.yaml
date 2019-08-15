@@ -1,0 +1,38 @@
+---
+
+# There is an NTP module for Cisco IOS but it does not contain
+# the logic needed for VRFs or removing unwanted servers.
+
+- name: Configure NTP for IOS Devices
+  hosts: ios
+  gather_facts: false
+
+  vars:
+    ntp_config:
+      - ntp server vrf Mgmt-intf {{ ntp_server1 }}
+      - ntp server vrf Mgmt-intf {{ ntp_server2 }}
+
+  tasks:
+    - name: Gather IOS Facts
+      ios_facts:
+
+    - name: Gather Current NTP Configuration
+      when: ansible_net_system == 'ios'
+      ios_command:
+        commands:
+          - "show running-config full | include ntp server"
+      register: get_config
+
+    - name: Remove Other NTP Servers
+      when: "(get_config.stdout_lines[0] != '') and (item not in ntp_config) and ansible_net_system == 'ios'"
+      with_items: "{{ get_config.stdout_lines[0] }}"
+      ios_config:
+        lines:
+          - "no {{ item }}"
+
+    - name: Configure IOS NTP Servers
+      when: ansible_net_system == 'ios'
+      with_items: "{{ ntp_config }}"
+      ios_config:
+        lines:
+          - "{{ item  }}"
