@@ -3,6 +3,8 @@
 # There is an NTP module for NXOS however it does not seem to
 # contain logic for multiple servers or removing unused servers.
 
+# Most vars are pulled from group_vars/all.yaml
+
 - name: Configure NTP for NXOS Devices
   hosts: nxos
   gather_facts: false
