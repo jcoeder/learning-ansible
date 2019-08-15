@@ -1,0 +1,33 @@
+[all:vars]
+ansible_python_interpreter=/Users/justin/PROJECT/PROJECTz-virtualenv/bin/python
+ansible_user=USERNAME
+ansible_password=PASSWORD
+ansible_connection=network_cli
+
+[ios:vars]
+ansible_network_os=ios
+ansible_become=yes
+ansible_become_method=enable
+ansible_become_password=ENABLE_PASSWORD
+
+[nxos:vars]
+ansible_network_os=nxos
+
+[ios:children]
+internet_routers
+
+[nxos:children]
+internet_switches
+dmz_switches
+
+[internet_routers]
+ROUTER-1 ansible_host=10.2.2.64
+ROUTER-2 ansible_host=10.2.2.65
+
+[switches]
+SWITCH-1 ansible_host=10.2.2.66
+SWITCH-2 ansible_host=10.2.2.67
+
+[dmz_switches]
+DMZ-1 ansible_host=10.2.2.68
+DMZ-2 ansible_host=10.2.2.69
