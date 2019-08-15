@@ -1,0 +1,12 @@
+ ---
+
+ internet_vlans:
+   - vlan_id: 4
+     admin_state: up
+     name: VLAN4
+   - vlan_id: 5
+     admin_state: up
+     name: VLAN5
+   - vlan_id: 7
+     admin_state: up
+     name: VLAN7
