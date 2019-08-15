@@ -1,0 +1,9 @@
+ ---
+
+ ntp_server1: 10.10.10.10
+ ntp_server2: 10.123.123.123
+
+ dns_server1: 1.1.1.1
+ dns_server2: 8.8.8.8
+
+ domain_name: example.com
