@@ -1,0 +1,41 @@
+---
+
+- name: Configure DNS for NXOS Devices
+  hosts: nxos
+  gather_facts: false
+
+  vars:
+    dns_config:
+      - ip name-server {{ dns_server1 }} {{ dns_server2 }} use-vrf management
+
+  tasks:
+    - name: Gather NXOS Facts
+      nxos_facts:
+
+    - name: Gather Current DNS Configuration
+      when: ansible_net_system == 'nxos'
+      ios_command:
+        commands:
+          - "show running-config | include name-server"
+      register: get_config
+
+    - name: Remove Other DNS Servers
+      when: "(get_config.stdout_lines[0] != '') and (item not in dns_config) and ansible_net_system == 'nxos'"
+      with_items: "{{ get_config.stdout_lines[0] }}"
+      nxos_config:
+        lines:
+          - "no {{ item }}"
+
+    - name: Configure NXOS DNS Servers
+      when: ansible_net_system == 'nxos'
+      with_items: "{{ dns_config }}"
+      nxos_config:
+        lines:
+          - "{{ item }}"
+
+    - name: Configure NXOS DNS Settings
+      when: ansible_net_system == 'nxos'
+      nxos_system:
+         domain_name: "{{ domain_name }}"
+         domain_search: "{{ domain_name }}"
+         domain_lookup: yes
