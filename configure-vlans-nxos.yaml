@@ -1,5 +1,7 @@
 ---
 
+# Vars are pulled from group_vars/switches.yaml
+
 - name: Configure VLANs
   hosts: switches
   gather_facts: false
