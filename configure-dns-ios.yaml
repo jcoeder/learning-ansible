@@ -1,0 +1,41 @@
+---
+
+- name: Configure DNS for IOS Devices
+  hosts: ios
+  gather_facts: false
+
+  vars:
+    dns_config:
+      - ip name-server vrf Mgmt-intf {{ dns_server1 }} {{ dns_server2 }}
+
+  tasks:
+    - name: Gather IOS Facts
+      ios_facts:
+
+    - name: Gather Current DNS Configuration
+      when: ansible_net_system == 'ios'
+      ios_command:
+        commands:
+          - "show running-config full | include name-server"
+      register: get_config
+
+    - name: Remove Other DNS Servers
+      when: "(get_config.stdout_lines[0] != '') and (item not in dns_config) and ansible_net_system == 'ios'"
+      with_items: "{{ get_config.stdout_lines[0] }}"
+      ios_config:
+        lines:
+          - "no {{ item }}"
+
+    - name: Configure IOS DNS Servers
+      when: ansible_net_system == 'ios'
+      with_items: "{{ dns_config }}"
+      ios_config:
+        lines:
+          - "{{ item }}"
+
+    - name: Configure IOS DNS Settings
+      when: ansible_net_system == 'ios'
+      ios_system:
+         domain_name: "{{ domain_name }}"
+         domain_search: "{{ domain_name }}"
+         lookup_enabled: yes
