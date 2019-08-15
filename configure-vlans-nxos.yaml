@@ -1,0 +1,12 @@
+---
+
+- name: Configure VLANs
+  hosts: switches
+  gather_facts: false
+  tasks:
+    - name: Configure Internet VLANs
+      nxos_vlan:
+        vlan_id:     "{{ item.vlan_id }}"
+        admin_state: "{{ item.admin_state }}"
+        name:        "{{ item.name }}"
+      with_items:    "{{ internet_vlans }}"
