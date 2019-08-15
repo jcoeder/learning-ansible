@@ -1,5 +1,7 @@
 ---
 
+# Most vars are pulled from group_vars/all.yaml
+
 - name: Configure DNS for IOS Devices
   hosts: ios
   gather_facts: false
