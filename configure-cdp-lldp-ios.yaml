@@ -1,0 +1,30 @@
+---
+
+- name: Configure CDP and LLDP for IOS Devices
+  hosts: ios
+  gather_facts: false
+
+  tasks:
+    - name: Gather IOS Facts
+      ios_facts:
+
+    - name: Configure LLDP
+      when: ansible_net_system == 'ios'
+      ios_lldp:
+        state: present
+      notify: Write Memory
+
+    - name: Configure CDP
+      when: ansible_net_system == 'ios'
+      ios_config:
+        lines:
+          - cdp run
+        defaults: true
+      notify: Write Memory
+
+  handlers:
+    - name: Write Memory
+      when: ansible_net_system == 'ios'
+      ios_command:
+        commands:
+          - write memory
