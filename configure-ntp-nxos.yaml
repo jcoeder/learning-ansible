@@ -1,0 +1,39 @@
+---
+
+# There is an NTP module for NXOS however it does not seem to
+# contain logic for multiple servers or removing unused servers.
+
+- name: Configure NTP for NXOS Devices
+  hosts: nxos
+  gather_facts: false
+
+  vars:
+    ntp_config:
+      - ntp server {{ ntp_server1 }} use-vrf management
+      - ntp server {{ ntp_server2 }} use-vrf management
+      - ntp source-interface  mgmt0
+
+  tasks:
+    - name: Gather NXOS Facts
+      nxos_facts:
+
+    - name: Gather Current NTP Configuration
+      when: ansible_net_system == 'nxos'
+      nxos_command:
+        commands:
+          - "show running-config | include ntp"
+      register: get_config
+
+    - name: Remove Other NTP Servers
+      when: "(get_config.stdout_lines[0] != '') and (item not in ntp_config) and ansible_net_system == 'nxos'"
+      with_items: "{{ get_config.stdout_lines[0] }}"
+      nxos_config:
+        lines:
+          - "no {{ item }}"
+
+    - name: Configure NXOS NTP Servers
+      when: ansible_net_system == 'nxos'
+      with_items: "{{ ntp_config }}"
+      nxos_config:
+        lines:
+          - "{{ item  }}"
