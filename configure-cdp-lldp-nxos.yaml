@@ -1,0 +1,22 @@
+---
+
+- name: Configure CDP and LLDP for NXOS Devices
+  hosts: nxos
+  gather_facts: false
+
+  tasks:
+    - name: Gather NXOS Facts
+      nxos_facts:
+
+    - name: Configure LLDP
+      when: ansible_net_system == 'nxos'
+      nxos_lldp:
+        state: present
+
+    - name: Configure CDP
+      when: ansible_net_system == 'nxos'
+      nxos_config:
+        lines:
+          - cdp enable
+          - cdp advertise v2
+        defaults: true
