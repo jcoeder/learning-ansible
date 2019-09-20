@@ -1,0 +1,15 @@
+---
+- name: Configure BGP on Internet Routers
+  hosts: internet_routers
+  gather_facts: false
+  tasks:
+    - name: Configure BGP AS {{ as_number }}
+      ios_bgp:
+        config:
+          bgp_as: "{{ as_number }}"
+          router_id: "{{ interfaces.loopback0.address }}"
+          log_neighbor_changes: True
+          address_family:
+            - afi: ipv4
+              safi: unicast
+        operation: merge
