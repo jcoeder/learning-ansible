@@ -1,5 +1,5 @@
 [all:vars]
-ansible_python_interpreter=/Users/justin/PROJECT/PROJECTz-virtualenv/bin/python
+ansible_python_interpreter=/Users/justin/PROJECT/PROJECT-virtualenv/bin/python
 ansible_user=USERNAME
 ansible_password=PASSWORD
 ansible_connection=network_cli
