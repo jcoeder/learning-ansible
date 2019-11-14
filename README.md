@@ -16,11 +16,12 @@
 
 #### Create Python3 virtualenv
 
-`virtualenv -p python3.7 ~/WORKING_DIR/WORKING_DIR-virtualenv`
+`cd ~/WORKING_DIR`
+`python3 -m venv venv`
 
 #### Activate virtualenv
 
-`source ~/WORKING_DIR/WORKING_DIR-virtualenv/bin/activate`
+`source ~/WORKING_DIR/venv/bin/activate`
 
 #### Install requirements
 
