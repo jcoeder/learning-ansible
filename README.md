@@ -2,13 +2,13 @@
 ---
 ## General Ansible for Networking Environment
 #### Install Python3
-`sudo yum install gcc openssl-devel bzip2-devel`
+`sudo yum install gcc openssl-devel bzip2-devel libffi-dev`
 
-`sudo wget https://www.python.org/ftp/python/3.7.2/Python-3.7.2.tgz`
+`sudo wget https://www.python.org/ftp/python/3.7.2/Python-3.7.3.tgz`
 
-`sudo tar xzf Python-3.7.2.tgz`
+`sudo tar xzf Python-3.7.3.tgz`
 
-`cd Python-3.7.2`
+`cd Python-3.7.3`
 
 `sudo ./configure --enable-optimizations`
 
