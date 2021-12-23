@@ -1,0 +1,43 @@
+{% for intf, intf_attrs in interfaces.items() %}
+interface {{ intf }}
+  switchport access vlan {{ intf_attrs.vlan }}
+{% if intf_attrs.stp_portfast is defined %}
+  spanning-tree portfast
+{% endif %}
+{% if intf_attrs.stp_cost is defined %}
+  spanning-tree cost {{intf_attrs.stp_cost }}
+{% endif %}
+{% endfor %}
+!
+
+The information below will be used by the template above to output the following
+
+...
+interfaces.yaml
+...
+interfaces:
+  Ethernet1: {vlan: 1, stp_portfast: true, stp_cost: 1 }
+  Ethernet2: {vlan: 2}
+  Ethernet3: {vlan: 3}
+  Ethernet4: {vlan: 4}
+  Ethernet5: {vlan: 5}
+  Ethernet6: {vlan: 6}
+  Ethernet7: {vlan: 7}
+  
+...
+interface Ethernet1
+  switchport access vlan 1
+  spanning-tree portfast
+  spanning-tree cost 1
+interface Ethernet2
+  switchport access vlan 2
+interface Ethernet3
+  switchport access vlan 3
+interface Ethernet4
+  switchport access vlan 4
+interface Ethernet5
+  switchport access vlan 5
+interface Ethernet6
+  switchport access vlan 6
+interface Ethernet7
+  switchport access vlan 7
