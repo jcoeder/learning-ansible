@@ -16,7 +16,7 @@ router bgp {{ bgp_asn }}
 {% endfor %}
 !
 
-Data below gets parsed into the above jinja
+Data below gets parsed into the above jinja and outputs the following config
 ...
 bgp.yaml
 ...
@@ -24,3 +24,17 @@ bgp_asn: 22
 bgp_peers:
   - 172.31.254.2:
       peer_as: 23
+
+...
+feature bgp
+router bgp 22
+  router-id 172.31.101.101
+  address-family ipv4 unicast
+    network 172.31.101.101/32
+    network 172.31.102.101/32
+ 
+    neighbor 172.31.254.2
+    remote-as 23
+    description configured by ansible
+    address-family ipv4 unicast
+  !
