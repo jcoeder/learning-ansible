@@ -1,0 +1,37 @@
+tasks:
+    - name: Run show lldp neighbor command
+      ios_command:
+        commands: "show lldp neighbors"
+      register: lldp_neighbors
+      when: ansible_network_os == 'ios'
+
+    - name: Print first entry (whole entry) of the stdout_lines list
+      debug:
+        var: lldp_neighbors['stdout_lines'][0]
+
+    - name: Create a variable to store this entry
+      set_fact:
+        lldp: "{{ lldp_neighbors['stdout_lines'][0] }}" 
+
+    - name: Loop over list, look for entry with twb-sf-hpsw1, create another variable
+      set_fact: 
+        lldp_entry: "{{item}}"
+      loop: "{{ lldp }}"
+      when: "'twb-sf-hpsw1' in item"
+
+    - name: Print found entry, new variable
+      debug:
+        var: lldp_entry
+
+    - name: Create additional, specific variables by spliting the string on white space
+      ansible.builtin.set_fact:
+        remote_device: "{{ lldp_entry.split()[0] }}"
+        local_intf: "{{ lldp_entry.split()[1] }}"
+        remote_intf: "{{ lldp_entry.split()[2] }}"
+
+    - name: Print the exact information
+      debug:
+        msg:
+          - "{{remote_device}}"
+          - "{{local_intf}}"
+          - "{{remote_intf}}"
