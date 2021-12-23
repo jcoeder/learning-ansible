@@ -1,0 +1,26 @@
+!
+feature bgp
+router bgp {{ bgp_asn }}
+  router-id {{ loopback101_ip_address }}
+  address-family ipv4 unicast
+{% for network in bgp_advertise %}
+    network {{network}}
+{% endfor %}
+{% for peer in bgp_peers %} 
+  {% for peer_ip, attribs in peer.items() %}
+  neighbor {{ peer_ip }}
+    remote-as {{ attribs.peer_as }}
+    description configured by ansible
+    address-family ipv4 unicast
+  {% endfor %}
+{% endfor %}
+!
+
+Data below gets parsed into the above jinja
+...
+bgp.yaml
+...
+bgp_asn: 22
+bgp_peers:
+  - 172.31.254.2:
+      peer_as: 23
