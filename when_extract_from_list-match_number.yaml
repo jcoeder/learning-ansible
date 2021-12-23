@@ -1,0 +1,27 @@
+  module_defaults:
+    eos_facts:
+      gather_network_resources:
+        - vlans
+        - interfaces
+        - l2_interfaces
+        - l3_interfaces
+        - lacp
+        - lag_interfaces
+  tasks:
+    - name: Print all resources
+      debug:
+        var: ansible_network_resources
+
+    - name: Print only VLANs resource
+      debug:
+        var: ansible_network_resources.vlans
+
+    - name: Extract VLAN id 2 from the list of VLANs
+      set_fact: 
+        vlan2: "{{ item }}"
+      loop: "{{ ansible_network_resources.vlans }}"
+      when: item.vlan_id == 2
+
+    - name: Print only VLAN 2
+      debug:
+        var: vlan2
