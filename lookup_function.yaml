@@ -1,0 +1,12 @@
+# Use the lookup function to import a file as text
+
+---
+- name: Configure IOS Banner
+  gather_facts: false
+  hosts: cisco
+  tasks:
+    - name: Configure the login banner
+      ios_banner:
+        banner: login
+        text: "{{ lookup('file', './ios_banner.txt') }}"
+        state: present
